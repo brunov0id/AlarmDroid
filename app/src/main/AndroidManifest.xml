@@ -19,6 +19,13 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".BroadcastReceiverAlarm" android:label="BroadcastReceiverAlarm">
+            <intent-filter>
+                <action android:name="BroadcastReceiver_Alarm" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
