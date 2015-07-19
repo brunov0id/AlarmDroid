@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -32,11 +33,13 @@ public class BroadcastReceiverAlarm extends BroadcastReceiver {
         builder.setTicker(ticker);
         builder.setContentTitle(titulo);
         builder.setContentText(descricao);
+        builder.setSmallIcon(R.drawable.ic_launcher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
         builder.setContentIntent(pendingIntent);
 
         Notification notification = builder.build();
-        notification.vibrate = new long[] {150, 300, 150, 600};
         notification.flags = Notification.FLAG_AUTO_CANCEL;
+        notification.vibrate = new long[] {150, 300, 150, 600};
 
         notificationManager.notify(0, notification);
 
