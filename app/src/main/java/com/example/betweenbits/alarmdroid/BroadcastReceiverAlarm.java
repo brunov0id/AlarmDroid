@@ -18,30 +18,28 @@ import android.util.Log;
  */
 public class BroadcastReceiverAlarm extends BroadcastReceiver {
 
-    @Override    public void onReceive(Context context, Intent intent) {
-        Log.i("Scrpt","-> Alarm");
-
-        gerarNotificacao(context, new Intent(context, MainActivity.class), "New Message", "Alarm", "Information about AlarmManager");
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        dispatchNotification(context, new Intent(context, MainActivity.class), "New Message", "Alarm", "Ready for Start an Activity ?");
     }
 
-    public void gerarNotificacao(Context context, Intent intent, CharSequence ticker,  CharSequence titulo, CharSequence descricao) {
+    public void dispatchNotification(Context context, Intent intent, CharSequence ticker,  CharSequence title, CharSequence description) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setTicker(ticker);
-        builder.setContentTitle(titulo);
-        builder.setContentText(descricao);
+        builder.setContentTitle(title);
+        builder.setContentText(description);
         builder.setSmallIcon(R.drawable.ic_launcher);
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
         builder.setContentIntent(pendingIntent);
 
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notification.vibrate = new long[] {150, 300, 150, 600};
-
-        notificationManager.notify(0, notification);
+        notification.vibrate = new long[]{150, 300, 150, 600};
+        notificationManager.notify(R.drawable.ic_launcher, notification);
 
         try {
             Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
