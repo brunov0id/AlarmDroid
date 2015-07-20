@@ -15,7 +15,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.util.Calendar;
 
 
-public class MainActivity extends ActionBarActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class MainActivity extends ActionBarActivity implements TimePickerDialog.OnTimeSetListener {
 
     private TextView textView;
 
@@ -64,11 +64,5 @@ public class MainActivity extends ActionBarActivity implements TimePickerDialog.
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
         String time = "You picked the following time: "+hourOfDay+"h"+minute;
         textView.setText(time);
-    }
-
-    @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
-        String date = "You picked the following date: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
-        //dateTextView.setText(date);
     }
 }
