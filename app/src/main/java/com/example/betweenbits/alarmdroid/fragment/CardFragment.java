@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.betweenbits.alarmdroid.MainActivity;
 import com.example.betweenbits.alarmdroid.R;
 import com.example.betweenbits.alarmdroid.adapter.CardAdapter;
 import com.example.betweenbits.alarmdroid.domain.Card;
@@ -37,7 +38,7 @@ public class CardFragment extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        listCard = new ArrayList<Card>();
+        listCard = ((MainActivity) getActivity()).getCards();
 
         CardAdapter cardAdapter = new CardAdapter(getActivity(), listCard);
         recyclerView.setAdapter(cardAdapter);

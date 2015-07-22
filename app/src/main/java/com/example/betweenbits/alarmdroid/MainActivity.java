@@ -8,14 +8,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.betweenbits.alarmdroid.domain.Card;
 import com.example.betweenbits.alarmdroid.fragment.CardFragment;
 
-import com.dexafree.materialList.cards.BasicButtonsCard;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -59,6 +61,19 @@ public class MainActivity extends ActionBarActivity implements TimePickerDialog.
 //        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
+    public List<Card> getCards() {
+        List<Card> aux = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Card card = new Card();
+            card.setClock(10 + ":" + i);
+            card.setTitle("Label");
+            card.setStatus(true);
+
+            aux.add(card);
+        }
+        return aux;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -75,9 +90,6 @@ public class MainActivity extends ActionBarActivity implements TimePickerDialog.
 
     @Override
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
-
-        BasicButtonsCard card = new BasicButtonsCard(getApplicationContext());
-        card.setTitle(hourOfDay + ":" + minute);
 
 //        mListView.add(card);
     }
