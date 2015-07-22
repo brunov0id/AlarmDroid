@@ -1,4 +1,4 @@
-package com.example.betweenbits.alarmdroid;
+package com.example.betweenbits.alarmdroid.broadcast;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,6 +12,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.example.betweenbits.alarmdroid.MainActivity;
+import com.example.betweenbits.alarmdroid.R;
 
 /**
  * Created by brunov0id on 19/07/15.
