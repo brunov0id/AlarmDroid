@@ -3,15 +3,14 @@ package com.example.betweenbits.alarmdroid;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.betweenbits.alarmdroid.fragment.CardFragment;
+
 import com.dexafree.materialList.cards.BasicButtonsCard;
-import com.dexafree.materialList.cards.OnButtonPressListener;
-import com.dexafree.materialList.cards.WelcomeCard;
-import com.dexafree.materialList.model.Card;
-import com.dexafree.materialList.view.MaterialListView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -20,17 +19,21 @@ import java.util.Calendar;
 
 public class MainActivity extends ActionBarActivity implements TimePickerDialog.OnTimeSetListener {
 
+    private CardFragment cardFragment;
     private FloatingActionButton floatingActionButton;
-    private MaterialListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mListView = (MaterialListView) findViewById(R.id.material_listview);
-
-        welcome();
+        cardFragment = (CardFragment) getSupportFragmentManager().findFragmentByTag("mainFrag");
+        if(cardFragment == null) {
+            cardFragment = new CardFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.layoutFragment, cardFragment, "mainFrag");
+            fragmentTransaction.commit();
+        }
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.normal_plus);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -76,25 +79,6 @@ public class MainActivity extends ActionBarActivity implements TimePickerDialog.
         BasicButtonsCard card = new BasicButtonsCard(getApplicationContext());
         card.setTitle(hourOfDay + ":" + minute);
 
-        mListView.add(card);
-    }
-
-    private void welcome() {
-        WelcomeCard welcomeCard = new WelcomeCard(getApplicationContext());
-        welcomeCard.setTitle("Welcome to Alarm");
-        welcomeCard.setSubtitle("Add Your Alarms Here!");
-        welcomeCard.setDescription("Add Way Anytime.");
-        welcomeCard.setButtonText("OKAY!");
-
-        welcomeCard.setOnButtonPressedListener(new OnButtonPressListener() {
-            @Override
-            public void onButtonPressedListener(View view, Card card) {
-                mListView.remove(card);
-            }
-        });
-        welcomeCard.setDismissible(true);
-        welcomeCard.setBackgroundColorRes(R.color.background_material_dark);
-
-        mListView.add(welcomeCard);
+//        mListView.add(card);
     }
 }
