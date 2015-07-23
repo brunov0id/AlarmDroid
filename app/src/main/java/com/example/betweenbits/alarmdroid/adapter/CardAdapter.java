@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.betweenbits.alarmdroid.*;
 import com.example.betweenbits.alarmdroid.domain.Card;
@@ -19,10 +20,12 @@ import java.util.List;
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> {
 
+    private Context context;
     private List<Card> listCard;
     private LayoutInflater layoutInflater;
 
     public CardAdapter(Context context, List<Card> listCard) {
+        this.context = context;
         this.listCard = listCard;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -37,10 +40,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
     }
 
     @Override
-    public void onBindViewHolder(MyCarAdapter holder, int position) {
+    public void onBindViewHolder(MyCarAdapter holder, final int position) {
         holder.txtClock.setText(this.listCard.get(position).getClock());
         holder.aSwitch.setChecked(this.listCard.get(position).getStatus());
         holder.txtTitle.setText(this.listCard.get(position).getTitle());
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItem(position);
+            }
+        });
+    }
+
+    public void removeItem(int position) {
+        this.listCard.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
@@ -49,7 +63,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
     }
 
     public class MyCarAdapter extends RecyclerView.ViewHolder {
-
         public TextView txtClock;
         public Switch aSwitch;
         public TextView txtTitle;
@@ -62,6 +75,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
             aSwitch   = (Switch) itemView.findViewById(R.id.a_Switch);
             txtTitle  = (TextView) itemView.findViewById(R.id.txt_Title);
             imgDelete = (ImageButton) itemView.findViewById(R.id.img_Delete);
+
         }
     }
 }

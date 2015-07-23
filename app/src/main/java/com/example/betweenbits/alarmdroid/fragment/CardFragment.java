@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.betweenbits.alarmdroid.R;
 import com.example.betweenbits.alarmdroid.adapter.CardAdapter;
@@ -44,12 +43,12 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.attachToRecyclerView(recyclerView);
-
         Calendar calendar = Calendar.getInstance();
         final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
                 this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.attachToRecyclerView(recyclerView);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,22 +58,21 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
         });
 
         cardAdapter = new CardAdapter(getActivity(), listCard);
-
         return view;
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
+    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minuteOfDay) {
 
         Card card = new Card();
         card.setTitle("Label");
-        card.setClock(hourOfDay+":"+minute);
+        String hour   = (hourOfDay   == 0) ? "00" : String.valueOf(hourOfDay);
+        String minute = (minuteOfDay == 0) ? "00" : String.valueOf(minuteOfDay);
+        card.setClock(hour+":"+minute);
         card.setStatus(true);
 
         listCard.add(card);
         recyclerView.setAdapter(cardAdapter);
         cardAdapter.notifyDataSetChanged();
-
     }
-
 }
