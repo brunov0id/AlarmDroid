@@ -3,6 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="false"
@@ -12,6 +16,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -23,20 +28,27 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/a_Switch"
             android:layout_toStartOf="@+id/a_Switch"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@android:dimen/app_icon_size" />
+            android:textSize="24sp"
+            android:text="10:10" />
 
         <Switch
             android:id="@+id/a_Switch"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/txt_Clock"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:showText="false"
             android:singleLine="false"
-            android:splitTrack="false" />
+            android:splitTrack="false"
+            android:checked="false" />
 
         <TextView
             android:id="@+id/txt_Title"
@@ -48,7 +60,11 @@
             android:layout_toLeftOf="@+id/a_Switch"
             android:layout_toStartOf="@+id/a_Switch"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textSize="14sp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Label" />
 
         <ImageButton
             android:id="@+id/img_Delete"

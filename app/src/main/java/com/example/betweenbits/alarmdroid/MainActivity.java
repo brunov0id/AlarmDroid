@@ -6,23 +6,16 @@ import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.betweenbits.alarmdroid.domain.Card;
 import com.example.betweenbits.alarmdroid.fragment.CardFragment;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements TimePickerDialog.OnTimeSetListener {
+public class MainActivity extends ActionBarActivity {
 
     private CardFragment cardFragment;
-    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +29,6 @@ public class MainActivity extends ActionBarActivity implements TimePickerDialog.
             fragmentTransaction.replace(R.id.layoutFragment, cardFragment, "mainFrag");
             fragmentTransaction.commit();
         }
-
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.normal_plus);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar now = Calendar.getInstance();
-                TimePickerDialog dpd = TimePickerDialog.newInstance(
-                        MainActivity.this,
-                        now.get(Calendar.HOUR),
-                        now.get(Calendar.MINUTE), true);
-                dpd.show(getFragmentManager(), "TimePickerDialog");
-            }
-        });
 
 //        Intent intent = new Intent("BroadcastReceiver_Alarm");
 //        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -86,11 +66,5 @@ public class MainActivity extends ActionBarActivity implements TimePickerDialog.
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
-
-//        mListView.add(card);
     }
 }
