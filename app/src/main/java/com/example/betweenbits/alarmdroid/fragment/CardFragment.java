@@ -7,14 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.betweenbits.alarmdroid.MainActivity;
 import com.example.betweenbits.alarmdroid.R;
 import com.example.betweenbits.alarmdroid.adapter.CardAdapter;
 import com.example.betweenbits.alarmdroid.domain.Card;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,9 +26,10 @@ import java.util.List;
  */
 public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSetListener {
 
+    public static final String TIMEPICKER_TAG = "timepicker";
     private RecyclerView recyclerView;
-    private List<Card> listCard;
-    private FloatingActionButton floatingActionButton;
+    private List<Card> listCard = new ArrayList<>();
+    private CardAdapter cardAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,23 +44,21 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        listCard = ((MainActivity) getActivity()).getCards();
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.attachToRecyclerView(recyclerView);
 
-        CardAdapter cardAdapter = new CardAdapter(getActivity(), listCard);
-        recyclerView.setAdapter(cardAdapter);
+        Calendar calendar = Calendar.getInstance();
+        final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
+                this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
 
-//        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.normal_plus);
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Calendar now = Calendar.getInstance();
-//                TimePickerDialog dpd = TimePickerDialog.newInstance(
-//                        (TimePickerDialog.OnTimeSetListener) getActivity(),
-//                        now.get(Calendar.HOUR),
-//                        now.get(Calendar.MINUTE), true);
-//                dpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
-//            }
-//        });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show(getActivity().getFragmentManager(), TIMEPICKER_TAG);
+            }
+        });
+
+        cardAdapter = new CardAdapter(getActivity(), listCard);
 
         return view;
     }
@@ -66,7 +66,15 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
     @Override
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
 
-//        mListView.add(card);
+        Card card = new Card();
+        card.setTitle("Label");
+        card.setClock(hourOfDay+":"+minute);
+        card.setStatus(true);
+
+        listCard.add(card);
+        recyclerView.setAdapter(cardAdapter);
+        cardAdapter.notifyDataSetChanged();
+
     }
 
 }

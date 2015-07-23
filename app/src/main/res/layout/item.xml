@@ -32,7 +32,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="24sp"
+            android:textSize="48sp"
             android:text="10:10" />
 
         <Switch
@@ -64,7 +64,7 @@
             android:layout_marginRight="16dp"
             android:textSize="14sp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Label" />
+            android:text="Trabalho" />
 
         <ImageButton
             android:id="@+id/img_Delete"
