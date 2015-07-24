@@ -1,14 +1,17 @@
 package com.example.betweenbits.alarmdroid.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.betweenbits.alarmdroid.*;
 import com.example.betweenbits.alarmdroid.domain.Card;
@@ -20,6 +23,7 @@ import java.util.List;
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> {
 
+    private String m_Text = "";
     private Context context;
     private List<Card> listCard;
     private LayoutInflater layoutInflater;
@@ -44,6 +48,33 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
         holder.txtClock.setText(this.listCard.get(position).getClock());
         holder.aSwitch.setChecked(this.listCard.get(position).getStatus());
         holder.txtTitle.setText(this.listCard.get(position).getTitle());
+        holder.txtTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Alarm Name");
+
+                final EditText input = new EditText(context);
+                input.setMaxLines(5);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        m_Text = input.getText().toString();
+                        updateCard(m_Text, position);
+                    }
+                });
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,9 +83,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
         });
     }
 
-    public void removeItem(int position) {
+    private void removeItem(int position) {
         this.listCard.remove(position);
         notifyItemRemoved(position);
+    }
+
+    private void updateCard(String title, int position) {
+        this.listCard.get(position).setTitle(title);
+        notifyDataSetChanged();
     }
 
     @Override
