@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.betweenbits.alarmdroid.*;
 import com.example.betweenbits.alarmdroid.domain.Card;
@@ -52,16 +53,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
         holder.txtTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 new MaterialDialog.Builder(context)
                         .title("Label")
+                        .inputMaxLengthRes(40, R.color.red)
                         .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("Label", "", new MaterialDialog.InputCallback() {
+                        .positiveText("OK")
+                        .negativeText("CANCEL")
+                        .input(null, null, new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                updateCard(input.toString(), position);
+                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                updateCard(charSequence.toString(), position);
                             }
-                        }).show();
+                        })
+                        .show();
+
             }
         });
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
