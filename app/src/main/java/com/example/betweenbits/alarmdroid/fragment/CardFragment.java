@@ -45,7 +45,7 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
 
         Calendar calendar = Calendar.getInstance();
         final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
-                this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+                this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToRecyclerView(recyclerView);
@@ -58,6 +58,7 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
         });
 
         cardAdapter = new CardAdapter(getActivity(), listCard);
+        recyclerView.setAdapter(cardAdapter);
         return view;
     }
 
@@ -66,13 +67,13 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
 
         Card card = new Card();
         card.setTitle("Label");
-        String hour   = (hourOfDay   == 0) ? "00" : String.valueOf(hourOfDay);
-        String minute = (minuteOfDay == 0) ? "00" : String.valueOf(minuteOfDay);
-        card.setClock(hour+":"+minute);
+        String hour   = (hourOfDay     <= 9 || hourOfDay   == 0) ? "0" + String.valueOf(hourOfDay)   : String.valueOf(hourOfDay);
+        String minute = (minuteOfDay   <= 9 || minuteOfDay == 0) ? "0" + String.valueOf(minuteOfDay) : String.valueOf(minuteOfDay);
+
+        card.setClock(hour + ":" +minute);
         card.setStatus(true);
 
         listCard.add(card);
-        recyclerView.setAdapter(cardAdapter);
         cardAdapter.notifyDataSetChanged();
     }
 }

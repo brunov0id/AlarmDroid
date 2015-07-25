@@ -32,7 +32,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="48sp" />
+            android:textSize="24sp" />
 
         <Switch
             android:id="@+id/a_Switch"

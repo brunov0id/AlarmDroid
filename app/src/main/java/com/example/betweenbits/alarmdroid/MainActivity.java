@@ -41,19 +41,6 @@ public class MainActivity extends ActionBarActivity {
 //        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    public List<Card> getCards() {
-        List<Card> aux = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Card card = new Card();
-            card.setClock(10 + ":" + i);
-            card.setTitle("Label");
-            card.setStatus(true);
-
-            aux.add(card);
-        }
-        return aux;
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

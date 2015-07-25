@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.betweenbits.alarmdroid.*;
 import com.example.betweenbits.alarmdroid.domain.Card;
 
@@ -51,28 +52,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
         holder.txtTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Alarm Name");
 
-                final EditText input = new EditText(context);
-                input.setMaxLines(5);
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input);
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        m_Text = input.getText().toString();
-                        updateCard(m_Text, position);
-                    }
-                });
-                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
+                new MaterialDialog.Builder(context)
+                        .title("Label")
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .input("Label", "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                updateCard(input.toString(), position);
+                            }
+                        }).show();
             }
         });
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +100,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
             aSwitch   = (Switch) itemView.findViewById(R.id.a_Switch);
             txtTitle  = (TextView) itemView.findViewById(R.id.txt_Title);
             imgDelete = (ImageButton) itemView.findViewById(R.id.img_Delete);
-
         }
     }
 }
