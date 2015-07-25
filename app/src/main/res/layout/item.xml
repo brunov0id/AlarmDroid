@@ -34,7 +34,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="24sp" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/a_Switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

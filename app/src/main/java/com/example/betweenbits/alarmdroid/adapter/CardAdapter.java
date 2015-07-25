@@ -1,19 +1,15 @@
 package com.example.betweenbits.alarmdroid.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.betweenbits.alarmdroid.*;
 import com.example.betweenbits.alarmdroid.domain.Card;
@@ -25,7 +21,6 @@ import java.util.List;
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> {
 
-    private String m_Text = "";
     private Context context;
     private List<Card> listCard;
     private LayoutInflater layoutInflater;
@@ -94,7 +89,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
 
     public class MyCarAdapter extends RecyclerView.ViewHolder {
         public TextView txtClock;
-        public Switch aSwitch;
+        public SwitchCompat aSwitch;
         public TextView txtTitle;
         public ImageButton imgDelete;
 
@@ -102,7 +97,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
             super(itemView);
 
             txtClock  = (TextView) itemView.findViewById(R.id.txt_Clock);
-            aSwitch   = (Switch) itemView.findViewById(R.id.a_Switch);
+            aSwitch   = (SwitchCompat) itemView.findViewById(R.id.a_Switch);
             txtTitle  = (TextView) itemView.findViewById(R.id.txt_Title);
             imgDelete = (ImageButton) itemView.findViewById(R.id.img_Delete);
         }
