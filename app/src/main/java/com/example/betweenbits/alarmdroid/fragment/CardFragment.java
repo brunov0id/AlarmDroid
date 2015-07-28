@@ -65,15 +65,10 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
     @Override
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minuteOfDay) {
 
-        Card card = new Card();
-        card.setTitle("Label");
         String hour   = (hourOfDay     <= 9 || hourOfDay   == 0) ? "0" + String.valueOf(hourOfDay)   : String.valueOf(hourOfDay);
         String minute = (minuteOfDay   <= 9 || minuteOfDay == 0) ? "0" + String.valueOf(minuteOfDay) : String.valueOf(minuteOfDay);
 
-        card.setClock(hour + ":" +minute);
-        card.setStatus(true);
-
-        listCard.add(card);
+        listCard.add(new Card("Label", hour + ":" +minute, true));
         cardAdapter.notifyDataSetChanged();
     }
 }

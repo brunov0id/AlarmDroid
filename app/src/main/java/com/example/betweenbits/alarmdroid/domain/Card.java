@@ -1,11 +1,12 @@
 package com.example.betweenbits.alarmdroid.domain;
 
-import java.util.Date;
+
+import java.io.Serializable;
 
 /**
  * Created by brunov0id on 21/07/15.
  */
-public class Card {
+public class Card implements Serializable {
     private long id;
     private String clock;
     private String title;
