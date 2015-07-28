@@ -11,6 +11,12 @@ public class Card {
     private String title;
     private Boolean status;
 
+    public Card(String clock, String title, Boolean status) {
+        this.clock = clock;
+        this.title = title;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }
