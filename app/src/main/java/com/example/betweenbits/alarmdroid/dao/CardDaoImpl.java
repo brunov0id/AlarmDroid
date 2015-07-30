@@ -3,6 +3,7 @@ package com.example.betweenbits.alarmdroid.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 import com.example.betweenbits.alarmdroid.db.DBHelper;
 import com.example.betweenbits.alarmdroid.domain.Card;
@@ -31,26 +32,38 @@ public class CardDaoImpl implements CardDao{
 
     @Override
     public void insertCard(Card card) {
-        ContentValues values = new ContentValues();
-        values.put("clock",card.getClock());
-        values.put("title",card.getTitle());
-        values.put("status",card.getStatus());
+        try {
+            ContentValues values = new ContentValues();
+            values.put("clock",card.getClock());
+            values.put("title",card.getTitle());
+            values.put("status",card.getStatus());
 
-        this.database.insert(dbHelper.TABLE_CARDS, null, values);
+            this.database.insert(dbHelper.TABLE_CARDS, null, values);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateCard(Card card) {
-        ContentValues values = new ContentValues();
-        values.put("clock",card.getClock());
-        values.put("title",card.getTitle());
-        values.put("status",card.getStatus());
+        try {
+            ContentValues values = new ContentValues();
+            values.put("clock",card.getClock());
+            values.put("title",card.getTitle());
+            values.put("status",card.getStatus());
 
-        this.database.update(dbHelper.TABLE_CARDS, values, "id = " + card.getId(), null);
+            this.database.update(dbHelper.TABLE_CARDS, values, "id = " + card.getId(), null);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteCard(Card card) {
-        this.database.delete(dbHelper.TABLE_CARDS, "id = ?", new String[]{String.valueOf(card.getId())});
+        try {
+            this.database.delete(dbHelper.TABLE_CARDS, "id = ?", new String[]{String.valueOf(card.getId())});
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
     }
 }
