@@ -32,16 +32,25 @@ public class CardDaoImpl implements CardDao{
     @Override
     public void insertCard(Card card) {
         ContentValues values = new ContentValues();
+        values.put("clock",card.getClock());
+        values.put("title",card.getTitle());
+        values.put("status",card.getStatus());
 
+        this.database.insert(dbHelper.TABLE_CARDS, null, values);
     }
 
     @Override
     public void updateCard(Card card) {
+        ContentValues values = new ContentValues();
+        values.put("clock",card.getClock());
+        values.put("title",card.getTitle());
+        values.put("status",card.getStatus());
 
+        this.database.update(dbHelper.TABLE_CARDS, values, "id = " + card.getId(), null);
     }
 
     @Override
     public void deleteCard(Card card) {
-
+        this.database.delete(dbHelper.TABLE_CARDS, "id = ?", new String[]{String.valueOf(card.getId())});
     }
 }
