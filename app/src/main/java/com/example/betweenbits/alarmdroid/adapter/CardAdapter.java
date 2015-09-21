@@ -74,7 +74,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
 
     private void removeItem(int position) {
         this.listCard.remove(position);
-        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     private void updateCard(String title, int position) {
