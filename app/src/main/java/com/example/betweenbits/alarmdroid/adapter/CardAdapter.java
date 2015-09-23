@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.betweenbits.alarmdroid.*;
+import com.example.betweenbits.alarmdroid.dao.CardDaoImpl;
 import com.example.betweenbits.alarmdroid.domain.Card;
 
 import java.util.List;
@@ -19,37 +20,35 @@ import java.util.List;
 /**
  * Created by brunov0id on 21/07/15.
  */
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter>  {
 
     private Context context;
     private List<Card> listCard;
     private LayoutInflater layoutInflater;
+    private CardDaoImpl cardDao;
 
     public CardAdapter(Context context, List<Card> listCard) {
         this.context = context;
         this.listCard = listCard;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        cardDao = new CardDaoImpl(context);
     }
 
     @Override
     public MyCarAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.item, parent, false);
-
         MyCarAdapter myCarAdapter = new MyCarAdapter(view);
-
         return myCarAdapter;
     }
 
     @Override
     public void onBindViewHolder(MyCarAdapter holder, final int position) {
-        holder.txtClock.setText(this.listCard.get(position).getClock());
-        holder.aSwitch.setChecked(this.listCard.get(position).getStatus());
         holder.txtTitle.setText(this.listCard.get(position).getTitle());
         holder.txtTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new MaterialDialog.Builder(context)
-                        .title("Label")
+                        .title(listCard.get(position).getTitle())
                         .inputMaxLengthRes(40, R.color.red)
                         .inputType(InputType.TYPE_CLASS_TEXT)
                         .positiveText("OK")
@@ -61,9 +60,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
                             }
                         })
                         .show();
-
             }
         });
+        holder.txtClock.setText(this.listCard.get(position).getClock());
+        holder.aSwitch.setChecked(this.listCard.get(position).getStatus());
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +79,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
 
     private void updateCard(String title, int position) {
         this.listCard.get(position).setTitle(title);
+        cardDao.update(this.listCard.get(position));
         notifyDataSetChanged();
     }
 

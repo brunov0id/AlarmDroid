@@ -12,7 +12,9 @@ public class Card implements Serializable {
     private String title;
     private Boolean status;
 
-    public Card(String clock, String title, Boolean status) {
+    public Card() {}
+
+    public Card(String title, String clock, Boolean status) {
         this.clock = clock;
         this.title = title;
         this.status = status;

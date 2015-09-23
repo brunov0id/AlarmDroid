@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.betweenbits.alarmdroid.R;
 import com.example.betweenbits.alarmdroid.adapter.CardAdapter;
+import com.example.betweenbits.alarmdroid.dao.CardDaoImpl;
 import com.example.betweenbits.alarmdroid.domain.Card;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -27,8 +28,15 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
 
     public static final String TIMEPICKER_TAG = "timepicker";
     private RecyclerView recyclerView;
-    private List<Card> listCard = new ArrayList<>();
     private CardAdapter cardAdapter;
+    private CardDaoImpl cardDao;
+    private List<Card> listOfCard;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        cardDao = new CardDaoImpl(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,26 +57,39 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToRecyclerView(recyclerView);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePickerDialog.show(getActivity().getFragmentManager(), TIMEPICKER_TAG);
             }
         });
-
-        cardAdapter = new CardAdapter(getActivity(), listCard);
-        recyclerView.setAdapter(cardAdapter);
         return view;
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minuteOfDay) {
+    public void onResume() {
+        super.onResume();
+        if (cardAdapter == null) {
+            listOfCard = cardDao.getListOfCard();
+            cardAdapter = new CardAdapter(getActivity(), listOfCard);
+        }
+        recyclerView.setAdapter(cardAdapter);
+    }
 
+    @Override
+    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minuteOfDay) {
         String hour   = (hourOfDay     <= 9 || hourOfDay   == 0) ? "0" + String.valueOf(hourOfDay)   : String.valueOf(hourOfDay);
         String minute = (minuteOfDay   <= 9 || minuteOfDay == 0) ? "0" + String.valueOf(minuteOfDay) : String.valueOf(minuteOfDay);
 
-        listCard.add(new Card("Label", hour + ":" +minute, true));
+        if (listOfCard == null) {
+            listOfCard = new ArrayList<>();
+        }
+
+        Card clock = new Card("Label", hour + ":" + minute, true);
+
+        cardDao.insert(clock);
+        listOfCard.add(clock);
+
         cardAdapter.notifyDataSetChanged();
     }
 }
