@@ -73,6 +73,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyCarAdapter> 
     }
 
     private void removeItem(int position) {
+        cardDao.delete(this.listCard.get(position));
         this.listCard.remove(position);
         notifyDataSetChanged();
     }
