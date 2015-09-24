@@ -1,5 +1,8 @@
 package com.example.betweenbits.alarmdroid.fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,6 +93,23 @@ public class CardFragment extends Fragment implements TimePickerDialog.OnTimeSet
         cardDao.insert(clock);
         listOfCard.add(clock);
 
+        createAlarm(hour, minute);
+
         cardAdapter.notifyDataSetChanged();
+    }
+
+    private void createAlarm(String hour, String minute) {
+        Intent intent = new Intent("BroadcastReceiver_Alarm");
+        intent.putExtra("title", "Label");
+        intent.putExtra("clock", hour + ":" + minute);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.SECOND, 3); //1000 * ((60 * Integer.parseInt(hour)) * Integer.parseInt(minute))
+
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 }
